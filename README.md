@@ -10,3 +10,6 @@ This mod Depends on [Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 ## How it works
 
 If you don't know what the Trowel does. When right clicked it picks a random block from your hotbar and places is down.
+
+
+*PS. Thanks Astra for art*
