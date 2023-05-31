@@ -13,3 +13,5 @@ If you don't know what the Trowel does. When right clicked it picks a random blo
 
 
 *PS. Thanks Astra for art*
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M7DWJCH)
