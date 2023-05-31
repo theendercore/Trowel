@@ -1,4 +1,5 @@
-rootProject.name = "fabric-example-mod-kotlin-with-kotlin-dsl"
+val archives_base_name: String by settings
+rootProject.name = archives_base_name
 pluginManagement {
     repositories {
         maven("https://maven.fabricmc.net/") {

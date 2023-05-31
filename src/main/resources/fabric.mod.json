@@ -3,11 +3,17 @@
   "id": "trowel",
   "version": "${version}",
   "name": "Trowel",
-  "description": "I wanted this.",
+  "description": "A fabric port of Quarks Trowel item.",
   "authors": [
-    "enderCore",
+    "enderCore"
+  ],
+  "contributors": [
     "Astra"
   ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/trowel",
+    "issues": "https://github.com/theendercore/Trowel/issues"
+  },
   "license": "MIT",
   "icon": "assets/trowel/icon.png",
   "environment": "*",
