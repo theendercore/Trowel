@@ -9,7 +9,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.random.Random
 import java.util.*
 
-class Trowel : Item(FabricItemSettings().maxCount(1)) {
+class Trowel : Item(FabricItemSettings().maxCount(1).group(ItemGroup.TOOLS)) {
     var count = 0
     override fun useOnBlock(c: ItemUsageContext?): ActionResult {
         if (c != null && !c.world.isClient) {
