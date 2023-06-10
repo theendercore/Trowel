@@ -6,7 +6,7 @@ import net.minecraft.item.*
 import net.minecraft.stat.Stats
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.random.Random
+import java.util.Random
 import java.util.*
 
 class Trowel : Item(FabricItemSettings().maxCount(1).group(ItemGroup.TOOLS)) {
@@ -21,7 +21,7 @@ class Trowel : Item(FabricItemSettings().maxCount(1).group(ItemGroup.TOOLS)) {
                 if (itemStack?.item !is AirBlockItem && itemStack?.item is BlockItem) pool.add(itemStack)
             }
             if (pool.size > 0) {
-                val item = pool[Random.create().nextBetween(0, pool.size - 1)]
+                val item = pool[random(0, pool.size - 1)]
                 val actionResult: ActionResult = item.useOnBlock(
                     ItemPlacementContext(
                         player,
@@ -38,6 +38,10 @@ class Trowel : Item(FabricItemSettings().maxCount(1).group(ItemGroup.TOOLS)) {
             }
         }
         return ActionResult.PASS
+    }
+
+     fun random(min:Int, max:Int): Int {
+        return( min + (Math.random() * ((max - min) + 1))).toInt()
     }
 
 }
