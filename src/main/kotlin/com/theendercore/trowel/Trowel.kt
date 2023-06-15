@@ -6,7 +6,6 @@ import net.minecraft.item.*
 import net.minecraft.stat.Stats
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
-import java.util.Random
 import java.util.*
 
 class Trowel : Item(FabricItemSettings().maxCount(1).group(ItemGroup.TOOLS)) {
