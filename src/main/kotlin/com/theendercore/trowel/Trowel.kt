@@ -19,7 +19,7 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
             val player: PlayerEntity? = c.player
             if (player != null) {
                 val pool = LinkedList<ItemStack>()
-                for (i in 0..9) {
+                for (i in 0..8) {
                     val itemStack = player.inventory!!.getStack(i)
                     if (itemStack.item !is AirBlockItem && itemStack.item is BlockItem) pool.add(itemStack)
                 }
