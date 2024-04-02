@@ -11,46 +11,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 
 class Trowel : Item(FabricItemSettings().maxCount(1)) {
-    private var count = 0
     override fun useOnBlock(c: ItemUsageContext): ActionResult {
-//        return this.useOnBlockRecursive(c, 0)
-//        if (!c.world.isClient) {
-//            count++
-//            val player: PlayerEntity? = c.player
-//            if (player != null) {
-//                val pool = LinkedList<ItemStack>()
-//                for (i in 0..8) {
-//                    val itemStack = player.inventory!!.getStack(i)
-//                    if (itemStack.item !is AirBlockItem && itemStack.item is BlockItem) pool.add(itemStack)
-//                }
-//                if (pool.size > 0) {
-//                    val item = pool[Random.create().nextBetween(0, pool.size - 1)]
-//                    val iCtx = ItemPlacementContext(
-//                        player, c.hand, item, BlockHitResult(c.hitPos, c.side, c.blockPos, c.hitsInsideBlock())
-//                    )
-//                    val actionResult = item.useOnBlock(iCtx)
-//
-//                    if (actionResult.shouldIncrementStat()) {
-//                        count = 0
-//                        val state: BlockState = c.world.getBlockState(iCtx.blockPos)
-//                        val blockSoundGroup: BlockSoundGroup = state.soundGroup
-//                        c.world.playSound(
-//                            null,
-//                            iCtx.blockPos,
-//                            getPlaceSound(state),
-//                            SoundCategory.BLOCKS,
-//                            (blockSoundGroup.getVolume() + 1.0f) / 2.0f,
-//                            blockSoundGroup.getPitch() * 0.8f
-//                        )
-//                        return ActionResult.SUCCESS
-//                    } else if (count < pool.size) {
-//                        this.useOnBlock(c)
-//                    }
-//                }
-//            }
-//        }
-
-
         if (c.world.isClient) return ActionResult.PASS
 
         val player = c.player ?: return ActionResult.PASS
@@ -63,7 +24,6 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
         }
 
         if (placeable.isEmpty()) return ActionResult.PASS
-//        val random = Random(Clock.System.now().nanosecondsOfSecond)
         return place(placeable, inv, player, c, player.inventory.selectedSlot)
     }
 
