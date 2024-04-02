@@ -3,6 +3,7 @@ package com.theendercore.trowel
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.*
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -48,10 +49,8 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
 //                }
 //            }
 //        }
-        return useOnBlockRecursive(c, 0)
-    }
 
-    private fun useOnBlockRecursive(c: ItemUsageContext, count: Int): ActionResult {
+
         if (c.world.isClient) return ActionResult.PASS
 
         val player = c.player ?: return ActionResult.PASS
@@ -64,22 +63,30 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
         }
 
         if (placeable.isEmpty()) return ActionResult.PASS
+//        val random = Random(Clock.System.now().nanosecondsOfSecond)
+        return place(placeable, inv, player, c, player.inventory.selectedSlot)
+    }
 
-        val originalSlot = player.inventory.selectedSlot
 
-        placeable.random().let { (slot, stack) ->
+    private fun place(
+        placeable: List<Pair<Int, ItemStack>>, inv: PlayerInventory,
+        player: PlayerEntity, c: ItemUsageContext, originalSlot: Int,
+    ): ActionResult {
+        return if (placeable.isEmpty()) {
+            inv.selectedSlot = originalSlot
+            ActionResult.FAIL
+        } else placeable.random().let { (slot, stack) ->
             inv.selectedSlot = slot
             val placeCtx = newPlacementContext(player, stack, c)
-
-            if (stack.useOnBlock(placeCtx).shouldIncrementStat()) {
-                placeSound(placeCtx)
-                inv.selectedSlot = originalSlot
-                return ActionResult.SUCCESS
-            } else if (count < placeable.size) {
-                this.useOnBlockRecursive(c, count + 1)
+            if (placeCtx.canPlace()) {
+                if (stack.useOnBlock(placeCtx).shouldIncrementStat()) {
+                    placeSound(placeCtx)
+                    inv.selectedSlot = originalSlot
+                    return@let ActionResult.SUCCESS
+                }
             }
+            return@let this.place(placeable.filter { it.first != slot }, inv, player, c, originalSlot)
         }
-        return ActionResult.PASS
     }
 
     private fun placeSound(c: ItemUsageContext) {
