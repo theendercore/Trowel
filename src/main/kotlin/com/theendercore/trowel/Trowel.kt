@@ -1,6 +1,5 @@
 package com.theendercore.trowel
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -9,7 +8,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 
-class Trowel : Item(FabricItemSettings().maxCount(1)) {
+class Trowel : Item(Settings().maxCount(1)) {
     override fun useOnBlock(c: ItemUsageContext): ActionResult {
         if (c.world.isClient) return ActionResult.PASS
 
