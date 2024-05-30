@@ -14,5 +14,3 @@ When right clicked it picks a random block from your hotbar and places is down. 
 Thank you unroman for Ukrainian translation!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M7DWJCH)
-
-test
