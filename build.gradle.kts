@@ -14,6 +14,7 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
@@ -69,7 +70,6 @@ java {
     // If you remove this line, sources will not be generated.
     withSourcesJar()
 }
-
 
 
 // configure the maven publication

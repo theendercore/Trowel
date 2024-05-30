@@ -1,12 +1,11 @@
 package com.theendercore.trowel
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.block.BlockState
+import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.*
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 
@@ -32,20 +31,19 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
         placeable: List<Pair<Int, ItemStack>>, inv: PlayerInventory,
         player: PlayerEntity, c: ItemUsageContext, originalSlot: Int,
     ): ActionResult {
-        return if (placeable.isEmpty()) {
+        if (placeable.isEmpty()) {
             inv.selectedSlot = originalSlot
-            ActionResult.FAIL
-        } else placeable.random().let { (slot, stack) ->
+            return ActionResult.FAIL
+        }
+        placeable.random().let { (slot, stack) ->
             inv.selectedSlot = slot
             val placeCtx = newPlacementContext(player, stack, c)
-            if (placeCtx.canPlace()) {
-                if (stack.useOnBlock(placeCtx).shouldIncrementStat()) {
-                    placeSound(placeCtx)
-                    inv.selectedSlot = originalSlot
-                    return@let ActionResult.SUCCESS
-                }
+            if (canPlace(placeCtx, stack.item as BlockItem)) {
+                placeSound(placeCtx)
+                inv.selectedSlot = originalSlot
+                return ActionResult.SUCCESS
             }
-            return@let this.place(placeable.filter { it.first != slot }, inv, player, c, originalSlot)
+            return this.place(placeable.filter { it.first != slot }, inv, player, c, originalSlot)
         }
     }
 
@@ -67,6 +65,12 @@ class Trowel : Item(FabricItemSettings().maxCount(1)) {
         )
 
     private fun isPlaceable(stack: ItemStack): Boolean = stack.item !is AirBlockItem && stack.item is BlockItem
-    private fun getPlaceSound(state: BlockState): SoundEvent = state.soundGroup.placeSound
-
+    private fun canPlace(ctx: ItemPlacementContext, stack: BlockItem): Boolean {
+        val state = stack.block.getPlacementState(stack.getPlacementContext(ctx)) ?: return false
+        val shapeContext = if (ctx.player == null) ShapeContext.absent() else ShapeContext.of(ctx.player)
+        return ctx.canPlace()
+                && state.canPlaceAt(ctx.world, ctx.blockPos)
+                && ctx.world.canPlace(state, ctx.blockPos, shapeContext)
+                && stack.useOnBlock(ctx).shouldIncrementStat()
+    }
 }

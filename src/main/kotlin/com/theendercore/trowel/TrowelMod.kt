@@ -7,18 +7,22 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
-import org.slf4j.LoggerFactory
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
+@Suppress("MemberVisibilityCanBePrivate")
 object TrowelMod : ModInitializer {
     const val MODID = "trowel"
-    val LOGGER = LoggerFactory.getLogger(MODID)
+    val log: Logger = LoggerFactory.getLogger(MODID)
     val TROWEL: Item = Trowel()
     override fun onInitialize() {
-        LOGGER.info("Seizing the means of block placement!")
+        log.info("Seizing the means of block placement!")
 
         Registry.register(Registries.ITEM, Identifier(MODID, MODID), TROWEL)
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(ModifyEntries { it.addAfter(Items.SHEARS,TROWEL) })
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS)
+            .register(ModifyEntries { it.addAfter(Items.SHEARS, TROWEL) })
     }
 }
