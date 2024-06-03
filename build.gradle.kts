@@ -71,7 +71,9 @@ uploadConfig {
     modrinthId = modrinth_id
     curseId = curse_id
 
-    changeLog = "- fixed bug with rechisel\n- update to 20.6"
+    versionOverrides = listOf("1.20.6")
+
+    changeLog = "- update to 20.6 (why did the recipes have to change?)"
     // FabricApi
     modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
     curseDependency("fabric-api", uploadConfig.REQUIRED)
