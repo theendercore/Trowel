@@ -20,7 +20,7 @@ object TrowelMod : ModInitializer {
     override fun onInitialize() {
         log.info("Seizing the means of block placement!")
 
-        Registry.register(Registries.ITEM, Identifier(MODID, MODID), TROWEL)
+        Registry.register(Registries.ITEM, Identifier.of(MODID, MODID), TROWEL)
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS)
             .register(ModifyEntries { it.addAfter(Items.SHEARS, TROWEL) })

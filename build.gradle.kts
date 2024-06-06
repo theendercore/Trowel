@@ -50,7 +50,7 @@ loom {
 }
 
 tasks {
-    val targetJavaVersion = 17
+    val targetJavaVersion = 21
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.release.set(targetJavaVersion)
@@ -71,9 +71,9 @@ uploadConfig {
     modrinthId = modrinth_id
     curseId = curse_id
 
-    versionOverrides = listOf("1.20.6")
+//    versionOverrides = listOf("1.20.6")
 
-    changeLog = "- update to 20.6 (why did the recipes have to change?)"
+    changeLog = "- 1.21 update"
     // FabricApi
     modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
     curseDependency("fabric-api", uploadConfig.REQUIRED)

@@ -3,10 +3,10 @@ modId = "trowel"
 githubRepo = "theendercore/Trowel"
 discordServerInviteId = "KZ5Q364hEg"
 authors = [ "TheEnderCore", "Astra" ]
-majorMinecraftVersion = "1.20"
-minecraftVersion = "1.20.1"
-fabricLoaderVersion = "0.15.6"
-fabricApiVersion = "0.92.1+1.20.1"
+majorMinecraftVersion = "1.21-beta.1"
+minecraftVersion = "1.21-pre3"
+fabricLoaderVersion = "0.15.11"
+fabricApiVersion = "0.99.5+1.21"
 fabricLangKotlinVersion = "1.11.0+kotlin.2.0.0"
 license = "MIT"
 modules = [ ]
@@ -21,4 +21,4 @@ modules = [ ]
     # MOJYARN: Yarn layered on top of the official Mojang mappings
     # CUSTOM: Custom mapping jar. Uses mappings version as file location
     type = "YARN"
-    version = "1.20.1+build.10"
+    version = "1.21-pre3+build.1"
