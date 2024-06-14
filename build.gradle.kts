@@ -88,7 +88,7 @@ uploadConfig {
     modrinthId = modrinth_id
     curseId = curse_id
 
-//    versionOverrides = listOf("1.20.6")
+    versionOverrides = listOf("1.21")
     changeLog = "- 1.21 update"
     // FabricApi
     modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
