@@ -1,5 +1,6 @@
 @file:Suppress("PropertyName", "VariableNaming")
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,27 +12,24 @@ plugins {
     alias(libs.plugins.iridium.upload)
 }
 
+
 group = property("maven_group")!!
 version = property("mod_version")!!
-base.archivesName.set(property("archives_base_name") as String)
-description = property("description") as String
+base.archivesName.set(modSettings.modId())
 
-val modid: String by project
-val mod_name: String by project
 val modrinth_id: String? by project
 val curse_id: String? by project
 
 repositories {
     maven("https://teamvoided.org/releases")
+    mavenLocal()
     mavenCentral()
 }
 
 
 modSettings {
-    modId(modid)
-    modName(mod_name)
-
-    entrypoint("main", "com.theendercore.trowel.TrowelMod")
+    entrypoint("main", "com.theendercore.trowel.Trowel")
+    entrypoint("fabric-datagen", "com.theendercore.trowel.data.gen.TrowelData")
 }
 
 dependencies {
@@ -40,6 +38,15 @@ dependencies {
 
 loom {
     runs {
+        create("DataGen") {
+            client()
+            ideConfigGenerated(true)
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
+            vmArg("-Dfabric-api.datagen.modid=${modSettings.modId()}")
+            runDir("build/datagen")
+        }
+
         create("TestWorld") {
             client()
             ideConfigGenerated(true)
@@ -49,6 +56,8 @@ loom {
     }
 }
 
+sourceSets["main"].resources.srcDir("src/main/generated")
+
 tasks {
     val targetJavaVersion = 21
     withType<JavaCompile> {
@@ -57,12 +66,20 @@ tasks {
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = targetJavaVersion.toString()
+        compilerOptions.jvmTarget = JvmTarget.JVM_21
     }
 
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.toVersion(targetJavaVersion).toString()))
         withSourcesJar()
+    }
+    jar {
+        val valTaskNames = gradle.startParameter.taskNames
+        if (!valTaskNames.contains("runDataGen")) {
+            exclude("com/theendercore/trowel/data/gen/*")
+        } else {
+            println("Running datagen for task ${valTaskNames.joinToString(" ")}")
+        }
     }
 }
 
@@ -72,7 +89,6 @@ uploadConfig {
     curseId = curse_id
 
 //    versionOverrides = listOf("1.20.6")
-
     changeLog = "- 1.21 update"
     // FabricApi
     modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
